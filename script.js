@@ -4,33 +4,27 @@ const checkbox = document.getElementById("checkbox");
 const submitBtn = document.getElementById("submit");
 const existingBtn = document.getElementById("existing");
 
-// Function to check localStorage and show existing button
-function checkExistingUser() {
+// Function to toggle existing user button visibility
+function toggleExistingButton() {
   const savedUsername = localStorage.getItem("username");
   const savedPassword = localStorage.getItem("password");
-
-  if (savedUsername && savedPassword) {
-    existingBtn.style.display = "block";
-  } else {
-    existingBtn.style.display = "none";
-  }
+  existingBtn.style.display = (savedUsername && savedPassword) ? "block" : "none";
 }
 
-// Initialize form
-window.onload = () => {
+// Initialize form on load
+window.addEventListener("DOMContentLoaded", () => {
   usernameInput.value = "";
   passwordInput.value = "";
   checkbox.checked = false;
-  checkExistingUser();
-};
+  toggleExistingButton();
+});
 
-// Submit button click
+// Submit form
 submitBtn.addEventListener("click", (e) => {
   e.preventDefault();
-
   const username = usernameInput.value.trim();
   const password = passwordInput.value.trim();
-
+  
   if (!username || !password) {
     alert("Please enter username and password");
     return;
@@ -46,7 +40,7 @@ submitBtn.addEventListener("click", (e) => {
     localStorage.removeItem("password");
   }
 
-  checkExistingUser();
+  toggleExistingButton();
 });
 
 // Existing user login
