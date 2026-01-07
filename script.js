@@ -4,21 +4,28 @@ const checkbox = document.getElementById("checkbox");
 const submitBtn = document.getElementById("submit");
 const existingBtn = document.getElementById("existing");
 
-// Check if credentials exist in localStorage
 window.onload = () => {
+  // Ensure form is empty on load
+  usernameInput.value = "";
+  passwordInput.value = "";
+  checkbox.checked = false;
+
+  // Show existing button only if credentials exist
   const savedUsername = localStorage.getItem("username");
   const savedPassword = localStorage.getItem("password");
 
   if (savedUsername && savedPassword) {
-    existingBtn.style.display = "block"; // Show existing user button
+    existingBtn.style.display = "block";
+  } else {
+    existingBtn.style.display = "none";
   }
 };
 
-// Form submit
 submitBtn.addEventListener("click", (e) => {
-  e.preventDefault(); // prevent form submission reload
-  const username = usernameInput.value;
-  const password = passwordInput.value;
+  e.preventDefault();
+
+  const username = usernameInput.value.trim();
+  const password = passwordInput.value.trim();
 
   if (!username || !password) {
     alert("Please enter username and password");
@@ -28,15 +35,19 @@ submitBtn.addEventListener("click", (e) => {
   alert(`Logged in as ${username}`);
 
   if (checkbox.checked) {
-    // Save credentials
     localStorage.setItem("username", username);
     localStorage.setItem("password", password);
-    existingBtn.style.display = "block"; // Show existing user button
+    existingBtn.style.display = "block";
   } else {
-    // Remove credentials if checkbox unchecked
     localStorage.removeItem("username");
     localStorage.removeItem("password");
-    existingBtn.style.display = "none"; // Hide button
+    existingBtn.style.display = "none";
   }
+});
 
+existingBtn.addEventListener("click", () => {
+  const savedUsername = localStorage.getItem("username");
+  if (savedUsername) {
+    alert(`Logged in as ${savedUsername}`);
+  }
 });
