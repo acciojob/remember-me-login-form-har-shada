@@ -4,27 +4,31 @@ const checkbox = document.getElementById("checkbox");
 const submitBtn = document.getElementById("submit");
 const existingBtn = document.getElementById("existing");
 
-// Function to toggle existing user button visibility
-function toggleExistingButton() {
+// Function to update existing button visibility based on localStorage
+function updateExistingButton() {
   const savedUsername = localStorage.getItem("username");
   const savedPassword = localStorage.getItem("password");
-  existingBtn.style.display = (savedUsername && savedPassword) ? "block" : "none";
+  if (savedUsername && savedPassword) {
+    existingBtn.style.display = "block";
+  } else {
+    existingBtn.style.display = "none";
+  }
 }
 
-// Initialize form on load
+// Initialize form on page load
 window.addEventListener("DOMContentLoaded", () => {
   usernameInput.value = "";
   passwordInput.value = "";
   checkbox.checked = false;
-  toggleExistingButton();
+  updateExistingButton();
 });
 
-// Submit form
+// Handle submit
 submitBtn.addEventListener("click", (e) => {
   e.preventDefault();
   const username = usernameInput.value.trim();
   const password = passwordInput.value.trim();
-  
+
   if (!username || !password) {
     alert("Please enter username and password");
     return;
@@ -40,10 +44,10 @@ submitBtn.addEventListener("click", (e) => {
     localStorage.removeItem("password");
   }
 
-  toggleExistingButton();
+  updateExistingButton();
 });
 
-// Existing user login
+// Handle existing user login
 existingBtn.addEventListener("click", () => {
   const savedUsername = localStorage.getItem("username");
   if (savedUsername) {
