@@ -5,20 +5,14 @@ const submitBtn = document.getElementById("submit");
 const existingBtn = document.getElementById("existing");
 
 window.onload = () => {
-  // Ensure form is empty on load
   usernameInput.value = "";
   passwordInput.value = "";
   checkbox.checked = false;
 
-  // Show existing button only if credentials exist
   const savedUsername = localStorage.getItem("username");
   const savedPassword = localStorage.getItem("password");
 
-  if (savedUsername && savedPassword) {
-    existingBtn.style.display = "block";
-  } else {
-    existingBtn.style.display = "none";
-  }
+  existingBtn.style.display = (savedUsername && savedPassword) ? "block" : "none";
 };
 
 submitBtn.addEventListener("click", (e) => {
